@@ -20,9 +20,11 @@ public class AirlineCalculatorTest {
 	/**
 	 * {@inheritDoc}}
 	 */
-	/**
 	@Test
 	public void calculateTest() {
+		
+	}
+		/**
 		qt().forAll(integers().between(1,100),integers().between(1,100))
 		.check(
 				(a,b)->{
