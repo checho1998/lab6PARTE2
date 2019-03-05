@@ -19,7 +19,7 @@ public class AirlineCalculator implements BookingCalculator {
 	@Override
 	public BookingOutput calculate(Integer seatsNumber, SeatCategory category) {
 		// TODO: Add required validations and calculate total price if applies
-		if (seatsNumber>=1  &&  seatsNumber<=101) {
+		if (seatsNumber>=1  &&  seatsNumber<101) {
 			if (SeatCategory.ECONOMY_CLASS.equals(category)) {
 				if (seatsNumber>0 && seatsNumber<=50) {
 					if(seatsNumber>=5 && seatsNumber<=9 ) {
@@ -65,6 +65,9 @@ public class AirlineCalculator implements BookingCalculator {
 					if(seatsNumber>=5 && seatsNumber<=9 ) {
 						return new BookingOutput(BookingResult.SUCCESS, Optional.of(seatsNumber * (category.getPrice()-(category.getPrice()*(float)0.02))));
 					}
+					else {
+						return new BookingOutput(BookingResult.SUCCESS, Optional.of(seatsNumber * category.getPrice()));
+					}
 				}
 				else {
 					return new BookingOutput(BookingResult.NOT_ENOUGH_SEATS, Optional.empty());
@@ -74,6 +77,6 @@ public class AirlineCalculator implements BookingCalculator {
 				return new BookingOutput(BookingResult.NOT_ENOUGH_SEATS, Optional.empty());
 			}
 		}
-		return new BookingOutput(BookingResult.NOT_ENOUGH_SEATS, Optional.empty());	
+		return new BookingOutput(BookingResult.INVALID, Optional.empty());	
 	}
 }
