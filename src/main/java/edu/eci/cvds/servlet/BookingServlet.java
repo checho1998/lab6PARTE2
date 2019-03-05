@@ -15,6 +15,8 @@ import edu.eci.cvds.calculator.AirlineCalculator;
 import edu.eci.cvds.calculator.BookingCalculator;
 import edu.eci.cvds.model.BookingOutput;
 
+import edu.eci.cvds.model.SeatCategory;
+
 /**
  * Servlet class for travel reservations
  */
@@ -48,8 +50,8 @@ public class BookingServlet extends HttpServlet {
 		Writer responseWriter = resp.getWriter();
 
 		// TODO Add the corresponding Content Type, Status, and Response
-		resp.setContentType("");
-		resp.setStatus(0);
+		resp.setContentType("text/html");
+		resp.setStatus(200);
 		responseWriter.write(readFile("form.html"));
 		responseWriter.flush();
 	}
@@ -60,13 +62,18 @@ public class BookingServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Writer responseWriter = resp.getWriter();
-
+		SeatCategory Categoria = null; 
 		// TODO Create and validate employee
-		BookingOutput response = calculator.calculate(null, null);
+		String sillas = req.getParameter("seats");
+		String categoriaSillas = req.getParameter("seatCategory");
+		SeatCategory categoria = SeatCategory.valueOf(categoriaSillas);
+		int holi=Integer.parseInt(sillas);
+		
+		BookingOutput response = calculator.calculate(holi, categoria);
 
 		// TODO Add the Content Type, Status, and Response according to calculation response
-		resp.setContentType("");
-		resp.setStatus(0);
+		resp.setContentType("text/html");
+		resp.setStatus(200);
 		responseWriter.write(String.format(readFile("result.html"), response.getResult().name(),
 				response.getCost().map(cost -> String.format(PRICE_MESSAGE, cost)).orElse("")));
 		responseWriter.flush();
